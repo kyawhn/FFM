@@ -22,6 +22,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withReader('UTF-8') { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
 android {
     namespace = "io.codex.ffm"
     compileSdk = 35
@@ -45,9 +53,18 @@ android {
         multiDexEnabled = true
     }
 
+    signingConfigs {
+        release {
+            keyAlias = keystoreProperties['keyAlias'] ?: 'ffmkey'
+            keyPassword = keystoreProperties['keyPassword'] ?: 'ffmpass'
+            storeFile = keystoreProperties['storeFile'] ? rootProject.file(keystoreProperties['storeFile']) : rootProject.file('release.keystore')
+            storePassword = keystoreProperties['storePassword'] ?: 'ffmpass'
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
             minifyEnabled = false
             shrinkResources = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

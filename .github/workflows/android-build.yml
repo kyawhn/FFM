@@ -27,10 +27,17 @@ jobs:
       - name: Verify Flutter installation
         run: flutter --version
 
-      - name: Generate debug keystore
+      - name: Generate release keystore
         run: |
-          mkdir -p ~/.android
-          keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          cd android
+          keytool -genkey -v -keystore release.keystore -alias ffmkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass ffmpass -keypass ffmpass \
+            -dname "CN=FFM,OU=FFM,O=FFM,L=Unknown,ST=Unknown,C=US"
+          echo "storeFile=release.keystore" > key.properties
+          echo "keyAlias=ffmkey" >> key.properties
+          echo "storePassword=ffmpass" >> key.properties
+          echo "keyPassword=ffmpass" >> key.properties
 
       - name: Install dependencies
         run: flutter pub get
