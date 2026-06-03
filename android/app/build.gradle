@@ -22,14 +22,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystorePropertiesFile.withReader('UTF-8') { reader ->
-        keystoreProperties.load(reader)
-    }
-}
-
 android {
     namespace = "io.codex.ffm"
     compileSdk = 35
@@ -53,27 +45,9 @@ android {
         multiDexEnabled = true
     }
 
-    signingConfigs {
-        debug {
-            keyAlias = 'androiddebugkey'
-            keyPassword = 'android'
-            storeFile = rootProject.file('debug.keystore')
-            storePassword = 'android'
-        }
-        release {
-            keyAlias = keystoreProperties['keyAlias'] ?: 'androiddebugkey'
-            keyPassword = keystoreProperties['keyPassword'] ?: 'android'
-            storeFile = keystoreProperties['storeFile'] ? rootProject.file(keystoreProperties['storeFile']) : rootProject.file('debug.keystore')
-            storePassword = keystoreProperties['storePassword'] ?: 'android'
-        }
-    }
-
     buildTypes {
-        debug {
-            signingConfig = signingConfigs.debug
-        }
         release {
-            signingConfig = signingConfigs.release
+            signingConfig = signingConfigs.debug
             minifyEnabled = false
             shrinkResources = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -88,5 +62,4 @@ flutter {
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.core:core-ktx:1.15.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
 }
