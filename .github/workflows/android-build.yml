@@ -30,14 +30,14 @@ jobs:
       - name: Generate release keystore
         run: |
           cd android
-          keytool -genkey -v -keystore release.keystore -alias ffmkey \
+          keytool -genkey -v -keystore release.keystore -alias release \
             -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass ffmpass -keypass ffmpass \
+            -storepass android -keypass android \
             -dname "CN=FFM,OU=FFM,O=FFM,L=Unknown,ST=Unknown,C=US"
           echo "storeFile=release.keystore" > key.properties
-          echo "keyAlias=ffmkey" >> key.properties
-          echo "storePassword=ffmpass" >> key.properties
-          echo "keyPassword=ffmpass" >> key.properties
+          echo "keyAlias=release" >> key.properties
+          echo "storePassword=android" >> key.properties
+          echo "keyPassword=android" >> key.properties
 
       - name: Install dependencies
         run: flutter pub get
@@ -51,22 +51,45 @@ jobs:
       - name: Build Debug APK
         run: flutter build apk --debug
 
-      - name: Build Release APK
-        run: flutter build apk --release
+      - name: Build Release APK (split per ABI)
+        run: flutter build apk --release --split-per-abi
         env:
           FLUTTER_BUILD_NAME: 1.0.0
           FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
 
-      - name: Upload Debug APK artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: app-debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
-          retention-days: 7
+      - name: List APK outputs
+        run: ls -lh build/app/outputs/flutter-apk/
 
-      - name: Upload Release APK artifact
+      - name: Verify APK signature
+        run: |
+          apt-get update -qq && apt-get install -y -qq apksigner 2>/dev/null || true
+          apksigner verify --verbose build/app/outputs/flutter-apk/app-debug.apk 2>&1 | head -10 || echo "apksigner not available, trying keytool"
+          keytool -printcert -jarfile build/app/outputs/flutter-apk/app-debug.apk 2>&1 | head -5 || echo "keytool check failed"
+
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v7
         with:
-          name: app-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-          retention-days: 7
+          name: app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 30
+
+      - name: Upload Release APK (arm64)
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-release-arm64-v8a.apk
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          retention-days: 30
+
+      - name: Upload Release APK (armeabi)
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-release-armeabi-v7a.apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          retention-days: 30
+
+      - name: Upload Release APK (x86_64)
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-release-x86_64.apk
+          path: build/app/outputs/flutter-apk/app-x86_64-release.apk
+          retention-days: 30
