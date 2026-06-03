@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financial_freedom_management/domain/repositories/income_repository.dart';
 import 'package:financial_freedom_management/domain/repositories/expense_repository.dart';
+import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 import 'package:financial_freedom_management/domain/repositories/asset_repository.dart';
 import 'package:financial_freedom_management/domain/repositories/liability_repository.dart';
 import 'package:financial_freedom_management/domain/repositories/investment_repository.dart';

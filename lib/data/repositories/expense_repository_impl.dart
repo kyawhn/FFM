@@ -29,14 +29,14 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   @override
   Future<double> getTotalByMonth(DateTime month) async {
     final items = await getByMonth(month);
-    return items.fold(0.0, (sum, e) => sum + e.amount);
+    return items.fold<double>(0.0, (sum, e) => sum + e.amount);
   }
 
   @override
   Future<double> getTotalByYear(int year) async {
     final all = await getAll();
     return all.where((e) => e.date.year == year)
-        .fold(0.0, (sum, e) => sum + e.amount);
+        .fold<double>(0.0, (sum, e) => sum + e.amount);
   }
 
   @override

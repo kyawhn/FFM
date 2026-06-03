@@ -9,7 +9,7 @@ class Asset extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const Asset({
+  Asset({
     required this.id,
     required this.name,
     required this.type,

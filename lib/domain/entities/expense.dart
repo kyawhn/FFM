@@ -8,7 +8,7 @@ class Expense extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const Expense({
+  Expense({
     required this.id,
     required this.amount,
     required this.category,

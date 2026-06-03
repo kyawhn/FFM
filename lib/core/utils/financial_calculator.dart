@@ -58,10 +58,10 @@ class FinancialCalculator {
     required double netWorthGrowth,
   }) {
     final savingsRateScore = _normalizeScore(savingsRate, 0, 50, 0, 100);
-    final debtRatioScore = _normalizeScore(100 - debtRatio, 0, 100, 0, 100).clamp(0, 100);
+    final debtRatioScore = (_normalizeScore(100 - debtRatio, 0, 100, 0, 100)).clamp(0, 100).toDouble();
     final emergencyFundScore = _normalizeScore(emergencyFundMonths, 0, 12, 0, 100);
     final investmentRateScore = _normalizeScore(investmentRate, 0, 50, 0, 100);
-    final netWorthGrowthScore = _normalizeScore(netWorthGrowth, -50, 50, 0, 100).clamp(0, 100);
+    final netWorthGrowthScore = (_normalizeScore(netWorthGrowth, -50, 50, 0, 100)).clamp(0, 100).toDouble();
 
     final totalScore = (savingsRateScore * 0.25 +
         debtRatioScore * 0.20 +
@@ -70,12 +70,12 @@ class FinancialCalculator {
         netWorthGrowthScore * 0.15);
 
     return FinancialScore(
-      totalScore: totalScore.clamp(0, 100),
-      savingsRateScore: savingsRateScore.clamp(0, 100),
-      debtRatioScore: debtRatioScore.clamp(0, 100),
-      emergencyFundScore: emergencyFundScore.clamp(0, 100),
-      investmentRateScore: investmentRateScore.clamp(0, 100),
-      netWorthGrowthScore: netWorthGrowthScore.clamp(0, 100),
+      totalScore: totalScore.clamp(0, 100).toDouble(),
+      savingsRateScore: savingsRateScore.clamp(0, 100).toDouble(),
+      debtRatioScore: debtRatioScore.clamp(0, 100).toDouble(),
+      emergencyFundScore: emergencyFundScore.clamp(0, 100).toDouble(),
+      investmentRateScore: investmentRateScore.clamp(0, 100).toDouble(),
+      netWorthGrowthScore: netWorthGrowthScore.clamp(0, 100).toDouble(),
     );
   }
 

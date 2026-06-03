@@ -27,7 +27,7 @@ class LiabilityRepositoryImpl implements LiabilityRepository {
   @override
   Future<double> getTotalOutstanding() async {
     final all = await getAll();
-    return all.fold(0.0, (sum, l) => sum + l.outstandingBalance);
+    return all.fold<double>(0.0, (sum, l) => sum + l.outstandingBalance);
   }
 
   @override

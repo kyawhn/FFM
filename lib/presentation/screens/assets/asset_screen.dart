@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/asset.dart';
@@ -93,7 +94,7 @@ class AssetScreen extends ConsumerWidget {
   }
 
   Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final result = await _showForm(context, null);
+    final result = await _showForm(context, ref, null);
     if (result != null) {
       final a = Asset(id: const Uuid().v4(), name: result['name'], type: result['type'], currentValue: result['currentValue'], purchaseValue: result['purchaseValue'], notes: result['notes']);
       await ref.read(assetRepositoryProvider).add(a);
@@ -102,7 +103,7 @@ class AssetScreen extends ConsumerWidget {
   }
 
   Future<void> _showEditDialog(BuildContext context, WidgetRef ref, Asset asset) async {
-    final result = await _showForm(context, asset);
+    final result = await _showForm(context, ref, asset);
     if (result != null) {
       final a = asset.copyWith(name: result['name'], type: result['type'], currentValue: result['currentValue'], purchaseValue: result['purchaseValue'], notes: result['notes']);
       await ref.read(assetRepositoryProvider).update(a);
@@ -110,7 +111,7 @@ class AssetScreen extends ConsumerWidget {
     }
   }
 
-  Future<Map<String, dynamic>?> _showForm(BuildContext context, Asset? existing) {
+  Future<Map<String, dynamic>?> _showForm(BuildContext context, WidgetRef ref, Asset? existing) {
     final nameCtrl = TextEditingController(text: existing?.name ?? '');
     final currentCtrl = TextEditingController(text: existing?.currentValue.toString() ?? '');
     final purchaseCtrl = TextEditingController(text: existing?.purchaseValue.toString() ?? '');

@@ -26,7 +26,7 @@ final scoreProvider = FutureProvider<FinancialScoreData>((ref) async {
   final debtRatio = FinancialCalculator.calculateDebtRatio(liabilities, assets);
   final emergencyFund = goals.where((g) => g.type == 'Emergency Fund').fold(0.0, (s, g) => s + g.currentAmount);
   final emergencyMonths = FinancialCalculator.calculateEmergencyFundMonths(expenses, emergencyFund);
-  final investmentRate = income > 0 ? (investments / (income * 12)) * 100 : 0;
+  final investmentRate = income > 0 ? (investments / (income * 12)) * 100 : 0.0;
   final score = FinancialCalculator.calculateScore(savingsRate: savingsRate, debtRatio: debtRatio, emergencyFundMonths: emergencyMonths, investmentRate: investmentRate, netWorthGrowth: 5);
 
   return FinancialScoreData(score: score, savingsRate: savingsRate, debtRatio: debtRatio, emergencyMonths: emergencyMonths, investmentRate: investmentRate);

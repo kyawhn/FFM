@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/income.dart';
@@ -99,7 +100,7 @@ class IncomeScreen extends ConsumerWidget {
   }
 
   Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final result = await _showFormDialog(context, null);
+    final result = await _showFormDialog(context, ref, null);
     if (result != null) {
       final income = Income(id: const Uuid().v4(), amount: result['amount'], category: result['category'], date: result['date'], notes: result['notes']);
       await ref.read(incomeRepositoryProvider).add(income);
@@ -109,7 +110,7 @@ class IncomeScreen extends ConsumerWidget {
   }
 
   Future<void> _showEditDialog(BuildContext context, WidgetRef ref, Income income) async {
-    final result = await _showFormDialog(context, income);
+    final result = await _showFormDialog(context, ref, income);
     if (result != null) {
       final updated = income.copyWith(amount: result['amount'], category: result['category'], date: result['date'], notes: result['notes']);
       await ref.read(incomeRepositoryProvider).update(updated);

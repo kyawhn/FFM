@@ -29,14 +29,14 @@ class IncomeRepositoryImpl implements IncomeRepository {
   @override
   Future<double> getTotalByMonth(DateTime month) async {
     final items = await getByMonth(month);
-    return items.fold(0.0, (sum, i) => sum + i.amount);
+    return items.fold<double>(0.0, (sum, i) => sum + i.amount);
   }
 
   @override
   Future<double> getTotalByYear(int year) async {
     final all = await getAll();
     return all.where((i) => i.date.year == year)
-        .fold(0.0, (sum, i) => sum + i.amount);
+        .fold<double>(0.0, (sum, i) => sum + i.amount);
   }
 
   @override

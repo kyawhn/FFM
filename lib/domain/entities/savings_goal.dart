@@ -10,7 +10,7 @@ class SavingsGoal extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const SavingsGoal({
+  SavingsGoal({
     required this.id,
     required this.name,
     required this.type,

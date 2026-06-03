@@ -10,7 +10,7 @@ class Liability extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const Liability({
+  Liability({
     required this.id,
     required this.name,
     required this.type,

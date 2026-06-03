@@ -8,7 +8,7 @@ class Income extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const Income({
+  Income({
     required this.id,
     required this.amount,
     required this.category,

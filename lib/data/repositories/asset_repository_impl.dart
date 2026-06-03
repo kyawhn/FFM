@@ -27,13 +27,13 @@ class AssetRepositoryImpl implements AssetRepository {
   @override
   Future<double> getTotalValue() async {
     final all = await getAll();
-    return all.fold(0.0, (sum, a) => sum + a.currentValue);
+    return all.fold<double>(0.0, (sum, a) => sum + a.currentValue);
   }
 
   @override
   Future<double> getTotalPurchaseValue() async {
     final all = await getAll();
-    return all.fold(0.0, (sum, a) => sum + a.purchaseValue);
+    return all.fold<double>(0.0, (sum, a) => sum + a.purchaseValue);
   }
 
   @override

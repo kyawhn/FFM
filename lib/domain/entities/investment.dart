@@ -11,7 +11,7 @@ class Investment extends Equatable {
   final String notes;
   final DateTime createdAt;
 
-  const Investment({
+  Investment({
     required this.id,
     required this.name,
     required this.type,

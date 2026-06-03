@@ -78,21 +78,21 @@ class BudgetPlannerScreen extends ConsumerWidget {
   }
 
   Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final r = await _showForm(context, null);
+    final r = await _showForm(context, ref, null);
     if (r != null) {
       await ref.read(budgetRepositoryProvider).add(Budget(id: const Uuid().v4(), category: r['category'], plannedAmount: r['planned'], actualAmount: r['actual'], month: r['month'], notes: r['notes']));
       ref.invalidate(budgetListProvider); ref.invalidate(budgetComparisonProvider);
     }
   }
   Future<void> _showEditDialog(BuildContext context, WidgetRef ref, Budget b) async {
-    final r = await _showForm(context, b);
+    final r = await _showForm(context, ref, b);
     if (r != null) {
       await ref.read(budgetRepositoryProvider).update(b.copyWith(category: r['category'], plannedAmount: r['planned'], actualAmount: r['actual'], month: r['month'], notes: r['notes']));
       ref.invalidate(budgetListProvider); ref.invalidate(budgetComparisonProvider);
     }
   }
 
-  Future<Map<String, dynamic>?> _showForm(BuildContext context, Budget? existing) {
+  Future<Map<String, dynamic>?> _showForm(BuildContext context, WidgetRef ref, Budget? existing) {
     final plannedCtrl = TextEditingController(text: existing?.plannedAmount.toString() ?? '');
     final actualCtrl = TextEditingController(text: existing?.actualAmount.toString() ?? '');
     final notesCtrl = TextEditingController(text: existing?.notes ?? '');

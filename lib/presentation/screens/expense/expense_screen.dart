@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/expense.dart';
@@ -134,7 +135,7 @@ class ExpenseScreen extends ConsumerWidget {
   }
 
   Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final result = await _showFormDialog(context, null);
+    final result = await _showFormDialog(context, ref, null);
     if (result != null) {
       final expense = Expense(id: const Uuid().v4(), amount: result['amount'], category: result['category'], date: result['date'], notes: result['notes']);
       await ref.read(expenseRepositoryProvider).add(expense);
@@ -145,7 +146,7 @@ class ExpenseScreen extends ConsumerWidget {
   }
 
   Future<void> _showEditDialog(BuildContext context, WidgetRef ref, Expense expense) async {
-    final result = await _showFormDialog(context, expense);
+    final result = await _showFormDialog(context, ref, expense);
     if (result != null) {
       final updated = expense.copyWith(amount: result['amount'], category: result['category'], date: result['date'], notes: result['notes']);
       await ref.read(expenseRepositoryProvider).update(updated);

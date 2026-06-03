@@ -27,13 +27,13 @@ class InvestmentRepositoryImpl implements InvestmentRepository {
   @override
   Future<double> getTotalValue() async {
     final all = await getAll();
-    return all.fold(0.0, (sum, i) => sum + i.currentValue);
+    return all.fold<double>(0.0, (sum, i) => sum + i.currentValue);
   }
 
   @override
   Future<double> getTotalCostBasis() async {
     final all = await getAll();
-    return all.fold(0.0, (sum, i) => sum + (i.costBasis * i.quantity));
+    return all.fold<double>(0.0, (sum, i) => sum + (i.costBasis * i.quantity));
   }
 
   @override

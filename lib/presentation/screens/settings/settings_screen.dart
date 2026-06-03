@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:financial_freedom_management/presentation/providers/theme_provider.dart';
 import 'package:financial_freedom_management/core/utils/backup_service.dart';

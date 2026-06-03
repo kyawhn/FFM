@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:uuid/uuid.dart';
@@ -67,21 +68,21 @@ class InvestmentScreen extends ConsumerWidget {
   }
 
   Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final r = await _showForm(context, null);
+    final r = await _showForm(context, ref, null);
     if (r != null) {
       await ref.read(investmentRepositoryProvider).add(Investment(id: const Uuid().v4(), name: r['name'], type: r['type'], costBasis: r['costBasis'], currentValue: r['currentValue'], quantity: r['quantity'], purchaseDate: r['date'], notes: r['notes']));
       ref.invalidate(investmentListProvider); ref.invalidate(investmentSummaryProvider); ref.invalidate(dashboardProvider);
     }
   }
   Future<void> _showEditDialog(BuildContext context, WidgetRef ref, Investment item) async {
-    final r = await _showForm(context, item);
+    final r = await _showForm(context, ref, item);
     if (r != null) {
       await ref.read(investmentRepositoryProvider).update(Investment(id: item.id, name: r['name'], type: r['type'], costBasis: r['costBasis'], currentValue: r['currentValue'], quantity: r['quantity'], purchaseDate: r['date'], notes: r['notes'], createdAt: item.createdAt));
       ref.invalidate(investmentListProvider); ref.invalidate(investmentSummaryProvider); ref.invalidate(dashboardProvider);
     }
   }
 
-  Future<Map<String, dynamic>?> _showForm(BuildContext context, Investment? existing) {
+  Future<Map<String, dynamic>?> _showForm(BuildContext context, WidgetRef ref, Investment? existing) {
     final nameCtrl = TextEditingController(text: existing?.name ?? '');
     final costCtrl = TextEditingController(text: existing?.costBasis.toString() ?? '');
     final valueCtrl = TextEditingController(text: existing?.currentValue.toString() ?? '');

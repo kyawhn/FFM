@@ -27,8 +27,8 @@ final reportDataProvider = FutureProvider<Map<String, dynamic>>((ref) async {
     monthlyIncome['${m}'] = await incomeRepo.getTotalByMonth(month);
     monthlyExpenses['${m}'] = await expenseRepo.getTotalByMonth(month);
   }
-  final incomeCategories = await incomeRepo.getCategoryTotals(DateTime(year, now.month])
-  final expenseCategories = await expenseRepo.getCategoryTotals(DateTime(year, now.month])
+  final incomeCategories = await incomeRepo.getCategoryTotals(DateTime(year, now.month))
+  final expenseCategories = await expenseRepo.getCategoryTotals(DateTime(year, now.month))
   final totalAssets = await assetRepo.getTotalValue();
   final totalLiabilities = await liabilityRepo.getTotalOutstanding();
 
