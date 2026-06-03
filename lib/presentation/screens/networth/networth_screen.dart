@@ -57,7 +57,7 @@ class NetWorthScreen extends ConsumerWidget {
                     PieChartSectionData(value: data['assets']!, title: 'Assets', color: Colors.green, radius: 90.0, titleStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                     PieChartSectionData(value: data['liabilities']!, title: 'Liabilities', color: Colors.red, radius: 90.0, titleStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                   ],
-                  sectionsSpace: 2, centerSpaceRadius: 40,
+                  sectionsSpace: 2, centerSpaceRadius: 40.0,
                 ),
               ),
             ).animate().scale(duration: 500.ms),

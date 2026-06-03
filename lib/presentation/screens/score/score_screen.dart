@@ -67,9 +67,9 @@ class ScoreScreen extends ConsumerWidget {
                       PieChart(PieChartData(
                         sections: [
                           PieChartSectionData(value: data.score.totalScore, color: data.score.ratingColor, radius: 90),
-                          PieChartSectionData(value: 100 - data.score.totalScore, color: Colors.grey[200]!, radius: 90),
+                          PieChartSectionData(value: (100.0 - data.score.totalScore).toDouble(), color: Colors.grey[200]!, radius: 90),
                         ],
-                        sectionsSpace: 0, centerSpaceRadius: 60,
+                        sectionsSpace: 0, centerSpaceRadius: 60.0,
                       )),
                       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text('${data.score.totalScore.toStringAsFixed(0)}', style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: data.score.ratingColor)),

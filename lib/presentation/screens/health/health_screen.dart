@@ -66,10 +66,10 @@ class HealthDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildHealthGauge(BuildContext context, Map<String, double> data) {
-    final sr = (data['savingsRate']! / 50).clamp(0, 1);
-    final dr = (1 - data['debtRatio']! / 100).clamp(0, 1);
-    final fir = (data['fiRatio']! / 100).clamp(0, 1);
-    final ef = (data['emergencyMonths']! / 12).clamp(0, 1);
+    final sr = (data['savingsRate']! / 50).clamp(0, 1).toDouble();
+    final dr = (1 - data['debtRatio']! / 100).clamp(0, 1).toDouble();
+    final fir = (data['fiRatio']! / 100).clamp(0, 1).toDouble();
+    final ef = (data['emergencyMonths']! / 12).clamp(0, 1).toDouble();
     final health = (sr * 0.3 + dr * 0.25 + fir * 0.25 + ef * 0.2) * 100;
 
     return Card(child: Padding(
@@ -81,8 +81,8 @@ class HealthDashboardScreen extends ConsumerWidget {
           width: 150, height: 150,
           child: Stack(alignment: Alignment.center, children: [
             PieChart(PieChartData(
-              sections: [PieChartSectionData(value: health, color: _healthColor(health), radius: 75), PieChartSectionData(value: 100 - health, color: Colors.grey[200]!, radius: 75)],
-              sectionsSpace: 0, centerSpaceRadius: 50,
+              sections: [PieChartSectionData(value: health, color: _healthColor(health), radius: 75), PieChartSectionData(value: (100.0 - health).toDouble(), color: Colors.grey[200]!, radius: 75)],
+              sectionsSpace: 0, centerSpaceRadius: 50.0,
             )),
             Column(children: [
               Text('${health.toStringAsFixed(0)}%', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _healthColor(health))),

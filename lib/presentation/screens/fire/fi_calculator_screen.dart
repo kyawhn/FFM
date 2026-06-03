@@ -83,8 +83,8 @@ class FICalculatorScreen extends ConsumerWidget {
                         width: 200, height: 200,
                         child: PieChart(PieChartData(
                           sections: [
-                            PieChartSectionData(value: data['progress']!.clamp(0, 100), title: '', color: Colors.purple, radius: 100),
-                            PieChartSectionData(value: (100 - data['progress']!.clamp(0, 100)).clamp(0, 100), title: '', color: Colors.grey[200]!, radius: 100),
+                            PieChartSectionData(value: data["progress"]!.toDouble().clamp(0.0, 100.0).toDouble(), title: "", color: Colors.purple, radius: 100.0),
+                            PieChartSectionData(value: (100.0 - data["progress"]!.toDouble().clamp(0.0, 100.0)).clamp(0.0, 100.0).toDouble(), title: "", color: Colors.grey[200]!, radius: 100.0),
                           ],
                           sectionsSpace: 0, centerSpaceRadius: 60.0,
                         )),
