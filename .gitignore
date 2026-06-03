@@ -6,6 +6,7 @@ build/
 *.aab
 *.jks
 *.hprof
+local.properties
 
 # Allow committed keystore for consistent signing
 !android/ffm-release.keystore
