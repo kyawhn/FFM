@@ -1,4 +1,4 @@
-name: Create Release
+name: Tagged Release
 
 on:
   push:
@@ -37,20 +37,12 @@ jobs:
           FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: Financial Freedom Management ${{ github.ref_name }}
-          body: |
-            ## Financial Freedom Management ${{ github.ref_name }}
-            
-            ### Installation
-            1. Download the APK below
-            2. Transfer to your Android device
-            3. Open the file and tap Install
-            4. If prompted, enable "Install from unknown sources"
-            
-            ### Changelog
-            See commits for details.
-          files: |
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "Financial Freedom Management ${{ github.ref_name }}" \
+            --notes "## Financial Freedom Management ${{ github.ref_name }}
+            Download the APK and install on your Android device." \
+            --generate-notes \
             build/app/outputs/flutter-apk/app-release.apk
-          generate_release_notes: true

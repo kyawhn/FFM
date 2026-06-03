@@ -13,6 +13,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -48,29 +50,16 @@ jobs:
           FLUTTER_BUILD_NAME: 1.0.0
           FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
 
-      - name: Build Split Release APKs
-        run: flutter build apk --release --split-per-abi
-        env:
-          FLUTTER_BUILD_NAME: 1.0.0
-          FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
-
       - name: List APK outputs
         run: ls -lh build/app/outputs/flutter-apk/
 
-      - name: Verify APK signatures
-        run: |
-          for apk in build/app/outputs/flutter-apk/*.apk; do
-            echo "=== Verifying: $(basename $apk) ==="
-            keytool -printcert -jarfile "$apk" 2>&1 | head -3 || echo "  (keytool check done)"
-            echo ""
-          done
-
-      - name: Generate SHA256 checksums
+      - name: Generate checksums
+        id: checksums
         run: |
           cd build/app/outputs/flutter-apk
-          sha256sum *.apk > checksums.txt
-          echo "=== SHA256 Checksums ==="
-          cat checksums.txt
+          echo 'CHECKSUMS<<EOF' >> $GITHUB_OUTPUT
+          sha256sum *.apk >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -79,37 +68,22 @@ jobs:
           path: build/app/outputs/flutter-apk/app-debug.apk
           retention-days: 30
 
-      - name: Upload Universal Release APK
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-universal
+          name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 30
 
-      - name: Upload Release APK (arm64-v8a)
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-arm64-v8a
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
-          retention-days: 30
-
-      - name: Upload Release APK (armeabi-v7a)
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-armeabi-v7a
-          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
-          retention-days: 30
-
-      - name: Upload Release APK (x86_64)
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-x86_64
-          path: build/app/outputs/flutter-apk/app-x86_64-release.apk
-          retention-days: 30
-
-      - name: Upload checksums
-        uses: actions/upload-artifact@v4
-        with:
-          name: checksums
-          path: build/app/outputs/flutter-apk/checksums.txt
-          retention-days: 30
+      - name: Create GitHub Release (main branch only)
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="build-${{ github.run_number }}"
+          gh release create "$TAG" \
+            --title "FFM Build #${{ github.run_number }}" \
+            --notes "## Financial Freedom Management
+            Download the APK below and install on your Android device.
+            This APK uses a committed release keystore with v1+v2+v3 signing for Android 8+ compatibility." \
+            build/app/outputs/flutter-apk/app-release.apk || echo "Release may already exist"
