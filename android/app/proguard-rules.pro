@@ -1,0 +1,2 @@
+-keep class io.hive.** { *; }
+-keep class com.flutter.** { *; }

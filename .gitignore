@@ -1,0 +1,23 @@
+# Flutter
+.dart_tool/
+.packages
+build/
+*.apk
+*.aab
+*.jks
+*.keystore
+*.hprof
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.tmp
+*.swp
