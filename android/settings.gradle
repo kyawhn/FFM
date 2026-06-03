@@ -1,8 +1,24 @@
 pluginManagement {
-    def flutterSdkPath = System.getenv('FLUTTER_SDK_PATH') ?: '/opt/flutter'
+    def flutterSdkPath = System.getenv('FLUTTER_ROOT') ?: System.getenv('FLUTTER_SDK_PATH') ?: {
+        def props = new Properties()
+        def propsFile = rootProject.file('local.properties')
+        if (propsFile.exists()) {
+            propsFile.withReader('UTF-8') { reader -> props.load(reader) }
+        }
+        def sdk = props.getProperty('flutter.sdk')
+        if (sdk == null) {
+            // Try well-known locations
+            for (p in ['/opt/hostedtoolcache/flutter/stable-3.44.1-x64/flutter', '/opt/flutter', System.getProperty('user.home') + '/flutter']) {
+                if (file(p).exists()) return p
+            }
+            throw new GradleException("Flutter SDK not found. Define location with FLUTTER_ROOT, FLUTTER_SDK_PATH env variable, or flutter.sdk in local.properties.")
+        }
+        return sdk
+    }()
+
     def flutterSdkDir = file(flutterSdkPath)
     if (!flutterSdkDir.exists()) {
-        throw new GradleException("Flutter SDK not found. Define location with FLUTTER_SDK_PATH env variable.")
+        throw new GradleException("Flutter SDK not found at: $flutterSdkPath")
     }
 
     includeBuild("${flutterSdkDir}/packages/flutter_tools/gradle")
