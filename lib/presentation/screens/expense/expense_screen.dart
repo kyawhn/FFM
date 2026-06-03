@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:financial_freedom_management/core/theme/app_theme.dart';
 import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
@@ -90,7 +91,7 @@ class ExpenseScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildExpenseCard(BuildContext context, ThemeData theme, Expense expense, {VoidCallback? onTap}) {
+  Widget _buildExpenseCard(BuildContext context, ThemeData theme, WidgetRef ref, Expense expense, {VoidCallback? onTap}) {
     final color = _getCategoryColor(expense.category);
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -156,7 +157,7 @@ class ExpenseScreen extends ConsumerWidget {
     }
   }
 
-  Future<Map<String, dynamic>?> _showFormDialog(BuildContext context, Expense? existing) {
+  Future<Map<String, dynamic>?> _showFormDialog(BuildContext context, WidgetRef ref, Expense? existing) {
     final amountCtrl = TextEditingController(text: existing?.amount.toString() ?? '');
     final notesCtrl = TextEditingController(text: existing?.notes ?? '');
     String category = existing?.category ?? AppConstants.expenseCategories.first;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:financial_freedom_management/core/utils/financial_calculator.dart';
 import 'package:financial_freedom_management/domain/repositories/expense_repository.dart';
 import 'package:financial_freedom_management/domain/repositories/investment_repository.dart';

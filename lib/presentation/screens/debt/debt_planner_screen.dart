@@ -82,7 +82,7 @@ class DebtPlannerScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            Icon(plan.method == 'Snowball' ? Icons.ac_unit : Icons.avalanche, color: color),
+            Icon(plan.method == 'Snowball' ? Icons.ac_unit : Icons.landscape, color: color),
             const SizedBox(width: 8),
             Expanded(child: Text(plan.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
             Container(

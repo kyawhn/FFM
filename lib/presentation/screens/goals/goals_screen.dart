@@ -58,7 +58,7 @@ class SavingsGoalsScreen extends ConsumerWidget {
           if (goal.notes.isNotEmpty) ...[const SizedBox(height: 4), Text(goal.notes, style: const TextStyle(color: Colors.grey, fontSize: 12))],
           const SizedBox(height: 8),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            TextButton(icon: const Icon(Icons.edit, size: 16), onPressed: () => _showEditDialog(context, ref, goal), label: const Text('Edit')),
+            TextButton(onPressed: () => _showEditDialog(context, ref, goal), child: Row(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.edit, size: 16), const SizedBox(width: 4), const Text('Edit')])),
           ]),
         ]),
       ),

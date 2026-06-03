@@ -98,7 +98,7 @@ class ReportsScreen extends ConsumerWidget {
         Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: color)),
         Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ]),
-    ])
+    ));
   }
 
   Widget _buildIncomeExpenseChart(Map<String, double> income, Map<String, double> expenses) {
@@ -117,7 +117,7 @@ class ReportsScreen extends ConsumerWidget {
         leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 40, getTitlesWidget: (v, _) => Text('\$${(v/1000).toInt()}k', style: const TextStyle(fontSize: 10)))), topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)), rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ),
       borderData: FlBorderData(show: false),
-    ])
+    ));
   }
 
   Widget _buildCategoryPieChart(Map<String, double> categories) {
@@ -130,7 +130,7 @@ class ReportsScreen extends ConsumerWidget {
         titleStyle: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
       )).toList(),
       sectionsSpace: 2, centerSpaceRadius: 30,
-    ])
+    ));
   }
 
   Future<void> _exportCSV(Map<String, double> income, Map<String, double> expenses) async {
@@ -145,6 +145,6 @@ class ReportsScreen extends ConsumerWidget {
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/ffm_report_${DateTime.now().millisecondsSinceEpoch}.csv');
     await file.writeAsString(csv);
-    await Share.shareXFiles([XFile(file.path)])
+    await Share.shareXFiles([XFile(file.path)]);
   }
 }
