@@ -26,8 +26,9 @@ void main() {
     });
 
     test('should support value equality', () {
-      final a = Income(id: '1', amount: 1000, category: 'Salary', date: DateTime(2026, 1, 1));
-      final b = Income(id: '1', amount: 1000, category: 'Salary', date: DateTime(2026, 1, 1));
+      final now = DateTime(2026, 1, 1);
+            final a = Income(id: '1', amount: 1000, category: 'Salary', date: DateTime(2026, 1, 1), createdAt: now);
+            final b = Income(id: '1', amount: 1000, category: 'Salary', date: DateTime(2026, 1, 1), createdAt: now);
       expect(a, b);
     });
   });

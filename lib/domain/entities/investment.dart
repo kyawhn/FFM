@@ -23,7 +23,7 @@ class Investment extends Equatable {
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
-  double get gainLoss => currentValue - (costBasis * quantity);
+  double get gainLoss => (currentValue - costBasis) * quantity;
   double get gainLossPercent => costBasis > 0 ? (gainLoss / (costBasis * quantity)) * 100 : 0;
 
   @override
