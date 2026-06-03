@@ -5,8 +5,10 @@ build/
 *.apk
 *.aab
 *.jks
-*.keystore
 *.hprof
+
+# Allow committed keystore for consistent signing
+!android/ffm-release.keystore
 
 # IDE
 .idea/

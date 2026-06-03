@@ -1,0 +1,56 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Release APK
+        run: flutter build apk --release
+        env:
+          FLUTTER_BUILD_NAME: ${{ github.ref_name }}
+          FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Financial Freedom Management ${{ github.ref_name }}
+          body: |
+            ## Financial Freedom Management ${{ github.ref_name }}
+            
+            ### Installation
+            1. Download the APK below
+            2. Transfer to your Android device
+            3. Open the file and tap Install
+            4. If prompted, enable "Install from unknown sources"
+            
+            ### Changelog
+            See commits for details.
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true

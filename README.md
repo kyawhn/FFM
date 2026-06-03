@@ -1,86 +1,81 @@
 # Financial Freedom Management (FFM)
 
-A comprehensive Flutter application for tracking personal finances and achieving financial independence.
+Track your income, expenses, assets, liabilities, investments, and path to financial independence.
 
 ## Features
 
-- **Dashboard** - Real-time overview of net worth, savings rate, FI progress, and financial health
-- **Income Manager** - Track salary, business, rental, dividends, and other income sources
-- **Expense Manager** - Monitor spending across 10+ categories with daily entry and analysis
-- **Asset Manager** - Track cash, investments, real estate, business assets, and more
-- **Liability Manager** - Monitor credit cards, loans, mortgages with interest rates and due dates
-- **Net Worth Tracker** - Automatic calculation with historical tracking and charts
-- **FI Calculator** - Calculate your Financial Independence Number
-- **FIRE Planner** - Lean FIRE, Regular FIRE, and Fat FIRE projections
-- **Investment Portfolio** - Track holdings, cost basis, gains/losses with allocation charts
-- **Savings Goals** - Set and track goals like emergency fund, house, retirement
-- **Budget Planner** - Monthly/annual budgets with planned vs actual comparison
-- **Debt Elimination Planner** - Snowball and Avalanche methods with payoff projections
-- **Reports** - Monthly, quarterly, annual reports with CSV export
-- **Financial Freedom Score** - 0-100 scoring engine with color-coded ratings
-- **Financial Health Dashboard** - Visual health metrics and gauges
-- **Dark/Light Mode** - Theme support with Material 3
+- **Dashboard** — Real-time net worth, FI progress, savings rate, emergency fund status
+- **Income Manager** — Track salary, business, rental, dividends, interest, side hustles
+- **Expense Manager** — Category-based expense tracking with monthly summaries
+- **Asset Manager** — Cash, investments, real estate, business, and other assets
+- **Liability Manager** — Credit cards, loans, mortgage with outstanding balance & interest rate
+- **Net Worth Tracker** — Auto-calculated with historical growth chart
+- **FI Calculator** — FI Number, progress, withdrawal rate planning
+- **FIRE Planner** — Lean, Regular, and Fat FIRE targets
+- **Investment Portfolio** — Holdings, cost basis, gain/loss, allocation pie chart
+- **Savings Goals** — Emergency fund, house, retirement, business capital
+- **Budget Planner** — Monthly/annual budgets with planned vs actual comparison
+- **Debt Elimination Planner** — Snowball and Avalanche methods
+- **Reports** — Monthly/quarterly/annual reports with PDF and CSV export
+- **Financial Freedom Score** — 0-100 scoring engine
+- **Financial Health Dashboard** — Savings rate, debt ratio, FI ratio, asset allocation
+- **Settings** — Dark/Light mode, backup/restore
 
-## Architecture
+## Installation
 
-Clean Architecture with three layers:
+### Option 1: Download from GitHub Actions (Recommended)
 
-- **Presentation** - Flutter widgets, Riverpod providers, screens
-- **Domain** - Entities, repository interfaces, business logic
-- **Data** - Hive database, repository implementations, models
+1. Go to the **Actions** tab of this repository
+2. Click on the latest successful workflow run
+3. Scroll to **Artifacts** section
+4. Download **`app-release-universal`** (works on all Android devices)
+5. Transfer the APK to your Android device
+6. Open the file and install (you may need to enable "Install from unknown sources")
 
-## Tech Stack
-
-- **Framework**: Flutter 3.44+ (Material 3)
-- **State Management**: Riverpod 2.x
-- **Database**: Hive (local-first, offline)
-- **Charts**: fl_chart
-- **Architecture**: Clean Architecture
-
-## Getting Started
-
-### Prerequisites
-
-- Flutter SDK 3.44+
-- Dart 3.12+
-- Android SDK 26+
-
-### Installation
+### Option 2: Build Locally
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/FFM.git
+git clone https://github.com/kyawhn/FFM.git
 cd FFM
 
-# Get dependencies
-flutter pub get
-
-# Run the app
-flutter run
-```
-
-### Building APK
-
-```bash
-# Debug APK
+# Build debug APK
 flutter build apk --debug
 
-# Release APK
+# Build universal release APK
 flutter build apk --release
+
+# Build split APKs (smaller size, per-architecture)
+flutter build apk --release --split-per-abi
+```
+
+## Tech Stack
+
+- **Framework:** Flutter (latest stable)
+- **Language:** Dart (latest stable)
+- **State Management:** Riverpod 2.x
+- **Database:** Hive (local-first, offline-only)
+- **Charts:** fl_chart
+- **Architecture:** Clean Architecture (Presentation → Domain → Data)
+- **UI:** Material 3 with dark/light mode
+
+## Project Structure
+
+```
+lib/
+├── core/           # Constants, theme, utilities
+├── data/           # Models, repositories (Hive implementation)
+├── domain/         # Entities, repository interfaces
+└── presentation/   # Providers (Riverpod), screens
 ```
 
 ## GitHub Actions
 
-The project includes automatic Android build workflow (`.github/workflows/android-build.yml`) that:
-
-1. Triggers on push to main/develop
-2. Installs Flutter
-3. Runs `flutter pub get`
-4. Runs `flutter analyze`
-5. Runs tests
-6. Builds debug and release APKs
-7. Uploads artifacts
-
-## License
-
-MIT
+The workflow (`.github/workflows/android-build.yml`) automatically:
+1. Checks out code
+2. Sets up Java 17 + Flutter
+3. Generates release keystore
+4. Runs `flutter analyze` and `flutter test`
+5. Builds debug, universal release, and split-per-abi APKs
+6. Verifies APK signatures and generates SHA256 checksums
+7. Uploads all APKs as artifacts

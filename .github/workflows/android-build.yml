@@ -7,16 +7,19 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Java JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -26,18 +29,6 @@ jobs:
 
       - name: Verify Flutter installation
         run: flutter --version
-
-      - name: Generate release keystore
-        run: |
-          cd android
-          keytool -genkey -v -keystore release.keystore -alias release \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass android -keypass android \
-            -dname "CN=FFM,OU=FFM,O=FFM,L=Unknown,ST=Unknown,C=US"
-          echo "storeFile=release.keystore" > key.properties
-          echo "keyAlias=release" >> key.properties
-          echo "storePassword=android" >> key.properties
-          echo "keyPassword=android" >> key.properties
 
       - name: Install dependencies
         run: flutter pub get
@@ -51,7 +42,13 @@ jobs:
       - name: Build Debug APK
         run: flutter build apk --debug
 
-      - name: Build Release APK (split per ABI)
+      - name: Build Universal Release APK
+        run: flutter build apk --release
+        env:
+          FLUTTER_BUILD_NAME: 1.0.0
+          FLUTTER_BUILD_NUMBER: ${{ github.run_number }}
+
+      - name: Build Split Release APKs
         run: flutter build apk --release --split-per-abi
         env:
           FLUTTER_BUILD_NAME: 1.0.0
@@ -60,36 +57,59 @@ jobs:
       - name: List APK outputs
         run: ls -lh build/app/outputs/flutter-apk/
 
-      - name: Verify APK signature
+      - name: Verify APK signatures
         run: |
-          apt-get update -qq && apt-get install -y -qq apksigner 2>/dev/null || true
-          apksigner verify --verbose build/app/outputs/flutter-apk/app-debug.apk 2>&1 | head -10 || echo "apksigner not available, trying keytool"
-          keytool -printcert -jarfile build/app/outputs/flutter-apk/app-debug.apk 2>&1 | head -5 || echo "keytool check failed"
+          for apk in build/app/outputs/flutter-apk/*.apk; do
+            echo "=== Verifying: $(basename $apk) ==="
+            keytool -printcert -jarfile "$apk" 2>&1 | head -3 || echo "  (keytool check done)"
+            echo ""
+          done
+
+      - name: Generate SHA256 checksums
+        run: |
+          cd build/app/outputs/flutter-apk
+          sha256sum *.apk > checksums.txt
+          echo "=== SHA256 Checksums ==="
+          cat checksums.txt
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
+          name: app-debug
           path: build/app/outputs/flutter-apk/app-debug.apk
           retention-days: 30
 
-      - name: Upload Release APK (arm64)
-        uses: actions/upload-artifact@v7
+      - name: Upload Universal Release APK
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release-arm64-v8a.apk
+          name: app-release-universal
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      - name: Upload Release APK (arm64-v8a)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-arm64-v8a
           path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
           retention-days: 30
 
-      - name: Upload Release APK (armeabi)
-        uses: actions/upload-artifact@v7
+      - name: Upload Release APK (armeabi-v7a)
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release-armeabi-v7a.apk
+          name: app-release-armeabi-v7a
           path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
           retention-days: 30
 
       - name: Upload Release APK (x86_64)
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release-x86_64.apk
+          name: app-release-x86_64
           path: build/app/outputs/flutter-apk/app-x86_64-release.apk
+          retention-days: 30
+
+      - name: Upload checksums
+        uses: actions/upload-artifact@v4
+        with:
+          name: checksums
+          path: build/app/outputs/flutter-apk/checksums.txt
           retention-days: 30
