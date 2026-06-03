@@ -86,7 +86,7 @@ class FICalculatorScreen extends ConsumerWidget {
                             PieChartSectionData(value: data['progress']!.clamp(0, 100), title: '', color: Colors.purple, radius: 100),
                             PieChartSectionData(value: (100 - data['progress']!.clamp(0, 100)).clamp(0, 100), title: '', color: Colors.grey[200]!, radius: 100),
                           ],
-                          sectionsSpace: 0, centerSpaceRadius: 60,
+                          sectionsSpace: 0, centerSpaceRadius: 60.0,
                         )),
                       ),
                       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
