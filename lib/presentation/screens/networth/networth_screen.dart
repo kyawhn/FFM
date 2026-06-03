@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:financial_freedom_management/domain/repositories/asset_repository.dart';
-import 'package:financial_freedom_management/domain/repositories/liability_repository.dart';
 import 'package:financial_freedom_management/core/utils/financial_calculator.dart';
 import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 

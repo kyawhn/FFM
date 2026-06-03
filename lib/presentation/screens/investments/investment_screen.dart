@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financial_freedom_management/presentation/providers/dashboard_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/investment.dart';
-import 'package:financial_freedom_management/domain/repositories/investment_repository.dart';
 import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 
 final investmentListProvider = FutureProvider<List<Investment>>((ref) async => ref.read(investmentRepositoryProvider).getAll());

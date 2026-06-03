@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:financial_freedom_management/domain/entities/income.dart';
-import 'package:hive/hive.dart';
 
 class IncomeModel {
   static const String boxName = 'incomes';

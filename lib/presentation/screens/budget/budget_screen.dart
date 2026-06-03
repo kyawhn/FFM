@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/budget.dart';
-import 'package:financial_freedom_management/domain/repositories/budget_repository.dart';
-import 'package:financial_freedom_management/domain/repositories/expense_repository.dart';
 import 'package:financial_freedom_management/core/constants/app_constants.dart';
 import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 

@@ -6,10 +6,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:csv/csv.dart';
-import 'package:financial_freedom_management/domain/repositories/income_repository.dart';
-import 'package:financial_freedom_management/domain/repositories/expense_repository.dart';
-import 'package:financial_freedom_management/domain/repositories/asset_repository.dart';
-import 'package:financial_freedom_management/domain/repositories/liability_repository.dart';
 import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 
 final reportDataProvider = FutureProvider<Map<String, dynamic>>((ref) async {

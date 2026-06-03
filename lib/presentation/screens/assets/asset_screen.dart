@@ -4,7 +4,6 @@ import 'package:financial_freedom_management/presentation/providers/dashboard_pr
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:uuid/uuid.dart';
 import 'package:financial_freedom_management/domain/entities/asset.dart';
-import 'package:financial_freedom_management/domain/repositories/asset_repository.dart';
 import 'package:financial_freedom_management/core/constants/app_constants.dart';
 import 'package:financial_freedom_management/presentation/providers/database_provider.dart';
 
