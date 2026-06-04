@@ -23,7 +23,15 @@ Track your income, expenses, assets, liabilities, investments, and path to finan
 
 ## Installation
 
-### Option 1: Download from GitHub Actions (Recommended)
+### Option 1: Direct Download FFM - Financial Freedom Management Android App
+
+Download the APK below and install on your Android device.
+
+This APK uses a committed release keystore with v1+v2+v3 signing for Android 8+ compatibility.
+
+https://github.com/kyawhn/FFM/releases/download/build-24/app-release.apk
+
+### Option 2: Download from GitHub Actions
 
 1. Go to the **Actions** tab of this repository
 2. Click on the latest successful workflow run
@@ -32,7 +40,7 @@ Track your income, expenses, assets, liabilities, investments, and path to finan
 5. Transfer the APK to your Android device
 6. Open the file and install (you may need to enable "Install from unknown sources")
 
-### Option 2: Build Locally
+### Option 3: Build Locally
 
 ```bash
 # Clone the repository
